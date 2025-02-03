@@ -5,15 +5,15 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class DinnerConstructor {
-    private Random random;
-    private HashMap<String, ArrayList<String>> menu;
-    private HashMap<String, ArrayList<String>> combos;
+    private final Random random;
+    private final HashMap<String, ArrayList<String>> menu;
+    private final ArrayList<ArrayList<String>> combos;
 
 
     DinnerConstructor() {
         random = new Random();
         menu = new HashMap<>();
-        combos = new HashMap<>();
+        combos = new ArrayList<>();
     }
 
     void addDish(String dishType, String dishName) {
@@ -23,22 +23,34 @@ public class DinnerConstructor {
             if (checkType(dishType)) {
                 menu.get(dishType).add(dishName);
             } else {
-                ArrayList<String> dish = new ArrayList<>();
-                dish.add(dishName);
-                menu.put(dishType, dish);
+                ArrayList<String> dishes = new ArrayList<>();
+                dishes.add(dishName);
+                menu.put(dishType, dishes);
             }
         }
     }
 
-    HashMap<String, ArrayList<String>> makeCombo(int comboQuantity, String drink, String firstDish, String secondDish) {
-        if (!(checkType(drink) && checkType(firstDish) && checkType(secondDish))) {
-
+    void makeCombo(int comboQuantity, ArrayList<String> comboTypes) {
+        for (int i = 0; i < comboQuantity; i++) {
+            ArrayList<String> combo = new ArrayList<>(comboTypes.size() - 1);
+            for (String type : comboTypes) {
+                combo.add(menu.get(type).get(random.nextInt(menu.get(type).size() - 1)));
+            }
+            combos.add(combo);
         }
+    }
 
+    ArrayList<String> getMenuTypeList() {
+        return new ArrayList<>(menu.keySet());
+    }
+
+    ArrayList<ArrayList<String>> getCombos() {
         return combos;
     }
 
-
+    void clearCombos() {
+        combos.clear();
+    }
 
     boolean checkType(String dishType) {
         return menu.containsKey(dishType);
