@@ -78,7 +78,7 @@ public class Main {
         dc.makeCombo(numberOfCombos, dishTypes);
 
         for (int i = 0; i < dc.getCombos().size(); i++) {
-            System.out.println("Комбо " + i + '\n' + dc.getCombos().get(i));
+            System.out.println("Комбо " + (i + 1) + '\n' + dc.getCombos().get(i));
         }
         dc.clearCombos();
     }
